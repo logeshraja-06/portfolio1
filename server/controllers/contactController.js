@@ -24,6 +24,8 @@ const validateEmail = (email) => {
 // @access  Public
 exports.submitContactForm = async (req, res) => {
   try {
+    console.log("Headers:", req.headers);
+    console.log("Request Body:", req.body);
     const { name, email, subject, message } = req.body;
 
     // 1. Backend Input Validation

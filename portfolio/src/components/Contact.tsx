@@ -85,19 +85,25 @@ export default function Contact() {
     }
 
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-      const cleanUrl = baseUrl.endsWith("/") ? `${baseUrl}contact` : `${baseUrl}/contact`;
-      
-      const response = await fetch(cleanUrl, {
+      console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
+      console.log("Payload:", {
+        name,
+        email: formData.email.trim(),
+        subject: formData.subject.trim(),
+        message: formData.message.trim()
+      });
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json"
         },
         body: JSON.stringify({
-          name: name,
+          name,
           email: formData.email.trim(),
           subject: formData.subject.trim(),
-          message: formData.message.trim(),
+          message: formData.message.trim()
         }),
       });
 

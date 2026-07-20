@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, MapPin, Send, MessageSquare } from "lucide-react";
 import LinkedInIcon from "@/components/LinkedInIcon";
 import confetti from "canvas-confetti";
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -117,30 +118,58 @@ export default function Contact() {
       }
 
       if (response.ok && data.success) {
-        setSubmitStatus("success");
-        triggerToast("success", "Message sent successfully.");
-        
-        // Shoot premium confetti
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ["#f97316", "#facc15", "#ffffff"],
-        });
+        // Backend save was successful. Now send email via EmailJS from frontend
+        try {
+          const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
+          const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "";
+          const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
 
-        // Reset form
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          subject: "",
-          message: "",
-        });
+          await emailjs.send(
+            serviceId,
+            templateId,
+            {
+              name: name,
+              email: formData.email.trim(),
+              subject: formData.subject.trim(),
+              message: formData.message.trim(),
+              to_name: "Logesh Raja"
+            },
+            publicKey
+          );
 
-        // Clear success message after 5 seconds
-        setTimeout(() => {
-          setSubmitStatus("idle");
-        }, 5000);
+          // Success flow: Save in MongoDB -> Send EmailJS email -> Show success toast -> Trigger confetti -> Reset form
+          setSubmitStatus("success");
+          triggerToast("success", "Message sent successfully.");
+          
+          // Shoot premium confetti
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ["#f97316", "#facc15", "#ffffff"],
+          });
+
+          // Reset form
+          setFormData({
+            firstName: "",
+            lastName: "",
+            email: "",
+            subject: "",
+            message: "",
+          });
+
+          // Clear success message after 5 seconds
+          setTimeout(() => {
+            setSubmitStatus("idle");
+          }, 5000);
+
+        } catch (emailjsError) {
+          console.error("EmailJS Error:", emailjsError);
+          const errMsg = "Your message has been saved successfully, but email delivery failed.";
+          setErrorMessage(errMsg);
+          setSubmitStatus("error");
+          triggerToast("error", errMsg);
+        }
       } else {
         const errMsg = data.error || "Failed to send message. Please try again.";
         setErrorMessage(errMsg);

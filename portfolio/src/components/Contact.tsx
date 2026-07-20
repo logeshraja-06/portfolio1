@@ -85,7 +85,8 @@ export default function Contact() {
     }
 
     try {
-      const response = await fetch("/api/contact", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+      const response = await fetch(`${apiUrl}/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -98,7 +99,14 @@ export default function Contact() {
         }),
       });
 
-      const data = await response.json();
+      // Handle non-JSON HTML error responses safely (e.g. 404, 500)
+      const contentType = response.headers.get("content-type");
+      let data;
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        throw new Error(`Server returned a non-JSON response (Status: ${response.status})`);
+      }
 
       if (response.ok && data.success) {
         setSubmitStatus("success");

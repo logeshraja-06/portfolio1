@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+:root {
+  --font-poppins: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-inter: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  
+  /* Light Mode Colors */
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-border: rgba(15, 23, 42, 0.08);
+  --accent: #f97316;
+  --accent-secondary: #facc15;
+  --accent-glow: rgba(249, 115, 22, 0.15);
+  
+  --shadow-color: rgba(15, 23, 42, 0.05);
+}
+
+.dark {
+  /* Dark Luxury Mode Colors */
+  --bg-primary: #070a13;
+  --bg-secondary: #0b0f19;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --card-bg: rgba(15, 23, 42, 0.6);
+  --card-border: rgba(255, 255, 255, 0.06);
+  --accent: #f97316;
+  --accent-secondary: #facc15;
+  --accent-glow: rgba(249, 115, 22, 0.25);
+  
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+@theme {
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-poppins);
+  
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --color-accent: var(--accent);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-accent-glow: var(--accent-glow);
+  
+  --shadow-premium: 0 10px 30px -10px var(--shadow-color);
+  --shadow-glow: 0 0 20px 0 var(--accent-glow);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(249, 115, 22, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(249, 115, 22, 0.6);
+}
+
+/* Selection highlight */
+::selection {
+  background: rgba(249, 115, 22, 0.3);
+  color: var(--text-primary);
+}
+
+/* Smooth Scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-inter);
+  overflow-x: hidden;
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-premium);
+}
+
+/* Luxury border glow animation */
+@keyframes borderGlow {
+  0%, 100% {
+    border-color: var(--card-border);
+    box-shadow: var(--shadow-premium);
+  }
+  50% {
+    border-color: rgba(249, 115, 22, 0.3);
+    box-shadow: 0 0 15px rgba(249, 115, 22, 0.15);
+  }
+}
+
+.glow-card:hover {
+  animation: borderGlow 3s infinite ease-in-out;
+}
+
+/* Background mesh glows */
+.bg-mesh-orange {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, rgba(249, 115, 22, 0) 70%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-mesh-yellow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(250, 204, 21, 0.12) 0%, rgba(250, 204, 21, 0) 70%);
+  filter: blur(35px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Text Gradients */
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-purple {
+  background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.floating-element {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Custom cursor styling hide default on desktop */
+@media (min-width: 1024px) {
+  .custom-cursor-active, 
+  .custom-cursor-active a, 
+  .custom-cursor-active button,
+  .custom-cursor-active input,
+  .custom-cursor-active textarea,
+  .custom-cursor-active [role="button"] {
+    cursor: none !important;
+  }
+}

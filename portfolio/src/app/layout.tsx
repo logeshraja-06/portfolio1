@@ -14,13 +14,15 @@ const inter = Inter({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-export const metadata: Metadata = {
-  title: "Logesh Raja S | Premium Full-Stack Developer & AI Developer Portfolio",
-  description: "Professional portfolio of Logesh Raja S - Computer Science Engineer, Full-Stack Developer (MERN), and AI Developer. Explore projects, certifications, and experience.",
-  keywords: ["Logesh Raja S", "Logesh Raja", "Portfolio", "Full Stack Developer", "MERN Stack", "React Developer", "AI Developer", "Computer Science Engineer"],
-  authors: [{ name: "Logesh Raja S" }],
+export const metadata = {
+  title: "Logesh Raja S | MERN Stack & AI Developer",
+  description:
+    "Portfolio of Logesh Raja S, Full Stack MERN Developer specializing in React, Node.js, MongoDB, Express, Java, and AI applications.",
+  openGraph: {
+    title: "Logesh Raja S",
+    images: ["/og-image.png"]
+  }
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
